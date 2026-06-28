@@ -1,6 +1,7 @@
 package dogged.dailyRewards;
 
 import dogged.dailyRewards.commands.DailyCommand;
+import dogged.dailyRewards.commands.ReloadCommand;
 import dogged.dailyRewards.listeners.DailyMenuListener;
 import dogged.dailyRewards.listeners.JoinListener;
 import dogged.dailyRewards.utils.CustomConfig;
@@ -30,6 +31,7 @@ public final class DailyRewards extends JavaPlugin {
         detectInitialDayChange();
 
         getCommand("daily").setExecutor(new DailyCommand());
+        getCommand("reload").setExecutor(new ReloadCommand());
 
         getServer().getPluginManager().registerEvents(new DailyMenuListener(), this);
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
@@ -37,19 +39,23 @@ public final class DailyRewards extends JavaPlugin {
 
         String name;
         int dayStreak;
+        boolean loggedOn;
         List<Integer> claimedDays;
 
         for (String uuid : playerDataConfig.getConfig().getKeys(false)) {
             name = playerDataConfig.getConfig().getString(uuid + ".name");
+            loggedOn = playerDataConfig.getConfig().getBoolean(uuid + ".logged_on");
             dayStreak = playerDataConfig.getConfig().getInt(uuid + ".day_streak", 1);
             claimedDays = playerDataConfig.getConfig().getIntegerList(uuid + ".claimed_days");
 
             PlayerData playerData = new PlayerData(UUID.fromString(uuid), name);
 
+            playerData.hasLoggedOn(loggedOn);
             playerData.setClaimedDays(claimedDays);
             playerData.setDayStreak(dayStreak);
         }
 
+        dayConfig.saveDefaultConfig();
         saveDefaultConfig();
     }
 
@@ -60,6 +66,7 @@ public final class DailyRewards extends JavaPlugin {
 
         for (UUID uuid : PlayerData.playersData.keySet()) {
             playerDataConfig.getConfig().set(uuid + ".name", PlayerData.playersData.get(uuid).getName());
+            playerDataConfig.getConfig().set(uuid + ".logged_on", PlayerData.playersData.get(uuid).hasLoggedOn());
             playerDataConfig.getConfig().set(uuid + ".day_streak", PlayerData.playersData.get(uuid).getDayStreak());
             playerDataConfig.getConfig().set(uuid + ".claimed_days", PlayerData.playersData.get(uuid).getClaimedDays());
         }
@@ -97,25 +104,17 @@ public final class DailyRewards extends JavaPlugin {
     private void handleNewDay() {
         LocalDate today = LocalDate.now();
 
-        // new month just started
-        boolean newMonth = (day == 30 || day == 31) && (today.getDayOfMonth() == 1);
-
         day = today.getDayOfMonth();
 
         for (PlayerData playerData : PlayerData.playersData.values()) {
-            if (newMonth) {
-                playerData.resetClaimedDays();
-            } else {
-                if (playerData.hasLoggedOn()) {
-                    playerData.hasLoggedOn(false);
-                    playerData.incrementDayStreak();
-                } else playerData.setDayStreak(1);
-            }
+            if (playerData.hasLoggedOn()) {
+                playerData.hasLoggedOn(false);
+                playerData.incrementDayStreak();
+            } else playerData.resetClaimedDays();
         }
     }
 
     public static DailyRewards getInstance() {return instance;}
-    public static int getDay() {return day;}
 }
 
 

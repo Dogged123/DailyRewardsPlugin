@@ -15,8 +15,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Objects;
-
 public class DailyMenuListener implements Listener {
 
     @EventHandler
@@ -59,7 +57,6 @@ public class DailyMenuListener implements Listener {
         }
 
         playerData.addClaimedDay(day);
-
         p.playSound(p, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 
         Material material;

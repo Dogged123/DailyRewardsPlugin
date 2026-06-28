@@ -27,13 +27,17 @@ public class DailyCommand implements CommandExecutor {
         DailyRewards plugin = DailyRewards.getInstance();
         PlayerData playerData = PlayerData.getPlayerData(p);
 
-        Inventory dailyMenu = Bukkit.createInventory(p, 36, Component.text("Daily Rewards", NamedTextColor.YELLOW));
-
         ConfigurationSection rewardsSection = plugin.getConfig().getConfigurationSection("rewards");
         if (rewardsSection == null || rewardsSection.getKeys(false).isEmpty()) {
             p.sendMessage(Component.text("No Daily Rewards have been set up!", NamedTextColor.RED));
             return true;
         }
+
+        Inventory dailyMenu = Bukkit.createInventory(
+                p,
+                (int) Math.max(9, Math.min(Math.ceil(rewardsSection.getKeys(false).size()/9.0)*9, 54)),
+                Component.text("Daily Rewards", NamedTextColor.YELLOW)
+        );
 
         Material claimed = Material.getMaterial(plugin.getConfig().getString("claimed_material", "emerald_block").toUpperCase());
         Material toClaim = Material.getMaterial(plugin.getConfig().getString("to_claim_material", "gold_block").toUpperCase());
@@ -63,7 +67,7 @@ public class DailyCommand implements CommandExecutor {
             }
 
             if (playerData.hasClaimedDaily(day)) material = claimed;
-            else if (playerData.getDayStreak() == day) material = toClaim;
+            else if (playerData.getDayStreak() >= day) material = toClaim;
             else material = cannotClaim;
 
             dailyMenu.setItem(day - 1, ItemMaker.buildItem(material, Component.text("Day " + day, NamedTextColor.GOLD)));

@@ -7,3 +7,7 @@ commands:
   daily:
     description: Opens the daily rewards menu
     usage: /<command>
+
+  reload:
+    description: Reloads config.yml
+    usage: /<command>

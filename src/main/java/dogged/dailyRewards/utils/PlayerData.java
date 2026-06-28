@@ -1,8 +1,8 @@
 package dogged.dailyRewards.utils;
 
 import dogged.dailyRewards.DailyRewards;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 import java.util.*;
 
@@ -34,12 +34,18 @@ public class PlayerData {
 
     public int getDayStreak() {return dayStreak;}
     public void setDayStreak(int ds) {dayStreak = ds;}
-    public void incrementDayStreak() {dayStreak++;}
+    public void incrementDayStreak() {
+        dayStreak ++;
+
+        ConfigurationSection rewardsSection = DailyRewards.getInstance().getConfig().getConfigurationSection("rewards");
+        if (rewardsSection != null) {
+            dayStreak = Math.min(dayStreak, rewardsSection.getKeys(false).size());
+        }
+    }
 
     public boolean hasLoggedOn() {return loggedOn;}
     public void hasLoggedOn(boolean logOn) {loggedOn = logOn;}
 
-    public boolean hasClaimedDaily() {return claimedDays.contains(DailyRewards.getDay());}
     public boolean hasClaimedDaily(int day) {return claimedDays.contains(day);}
     public void addClaimedDay(int day) {claimedDays.add(day);}
     public void setClaimedDays(List<Integer> cDays) {claimedDays = new ArrayList<>(cDays);}

@@ -1,0 +1,9 @@
+dogged\dailyRewards\commands\DailyCommand.class
+dogged\dailyRewards\utils\CustomConfig.class
+dogged\dailyRewards\DailyRewards$1.class
+dogged\dailyRewards\DailyRewards$2.class
+dogged\dailyRewards\DailyRewards.class
+dogged\dailyRewards\listeners\JoinListener.class
+dogged\dailyRewards\listeners\DailyMenuListener.class
+dogged\dailyRewards\utils\PlayerData.class
+dogged\dailyRewards\utils\ItemMaker.class

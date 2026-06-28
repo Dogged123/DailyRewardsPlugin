@@ -1,0 +1,99 @@
+# here you can change the different materials shown in the menu
+claimed_material: "emerald_block" # shows if the daily reward has already been claimed
+to_claim_material: "gold_block" # shows if the daily reward needs to be claimed
+cannot_claim_material: "redstone_block" # shows if the daily reward cannot be claimed
+
+# here you can define what items are given to the player, or any commands that are run when they claim the reward
+# you can use <p> as a placeholder for the player's name
+# commands do not need '/' in front of them, and will be run from the console
+rewards:
+  day1:
+    items: ["diamond:2", "golden_apple:1"]
+    commands: ["eco give <p> 50"]
+  day2:
+    items: ["diamond_block:5"]
+    commands: ["eco give <p> 500", "say hi <p>"]
+  day3:
+    items: ["iron_ingot:16", "gold_ingot:8"]
+    commands: ["eco give <p> 100"]
+  day4:
+    items: ["emerald:4", "golden_apple:2"]
+    commands: ["eco give <p> 150"]
+  day5:
+    items: ["diamond:4"]
+    commands: ["eco give <p> 200"]
+  day6:
+    items: ["diamond_block:2", "emerald:8"]
+    commands: ["eco give <p> 300"]
+  day7:
+    items: ["netherite_ingot:1", "golden_apple:4"]
+    commands: ["eco give <p> 500", "say Congrats <p> on reaching Day 7!"]
+  day8:
+    items: ["diamond:6", "iron_block:8"]
+    commands: ["eco give <p> 250"]
+  day9:
+    items: ["emerald_block:2"]
+    commands: ["eco give <p> 350"]
+  day10:
+    items: ["diamond_block:3", "golden_apple:3"]
+    commands: ["eco give <p> 500"]
+  day11:
+    items: ["netherite_scrap:2", "emerald:12"]
+    commands: ["eco give <p> 600"]
+  day12:
+    items: ["diamond:8"]
+    commands: ["eco give <p> 700"]
+  day13:
+    items: ["gold_block:16"]
+    commands: ["eco give <p> 800"]
+  day14:
+    items: ["netherite_ingot:2", "diamond_block:2"]
+    commands: ["eco give <p> 1000", "say Congrats <p> on reaching Day 14!"]
+  day15:
+    items: ["diamond:10", "emerald_block:3"]
+    commands: ["eco give <p> 1100"]
+  day16:
+    items: ["diamond_block:4"]
+    commands: ["eco give <p> 1200"]
+  day17:
+    items: ["netherite_scrap:4", "golden_apple:8"]
+    commands: ["eco give <p> 1300"]
+  day18:
+    items: ["emerald_block:4", "diamond:12"]
+    commands: ["eco give <p> 1400"]
+  day19:
+    items: ["netherite_ingot:2", "diamond_block:3"]
+    commands: ["eco give <p> 1500"]
+  day20:
+    items: ["diamond_block:5", "emerald_block:5"]
+    commands: ["eco give <p> 1750"]
+  day21:
+    items: ["netherite_ingot:3", "enchanted_golden_apple:1"]
+    commands: ["eco give <p> 2000", "say Amazing! <p> has reached Day 21!"]
+  day22:
+    items: ["diamond:16", "emerald:32"]
+    commands: ["eco give <p> 2250"]
+  day23:
+    items: ["diamond_block:6"]
+    commands: ["eco give <p> 2500"]
+  day24:
+    items: ["netherite_scrap:6", "gold_block:32"]
+    commands: ["eco give <p> 2750"]
+  day25:
+    items: ["emerald_block:6", "diamond:20"]
+    commands: ["eco give <p> 3000"]
+  day26:
+    items: ["diamond_block:8", "golden_apple:16"]
+    commands: ["eco give <p> 3500"]
+  day27:
+    items: ["netherite_ingot:4", "emerald_block:8"]
+    commands: ["eco give <p> 4000"]
+  day28:
+    items: ["diamond_block:10", "enchanted_golden_apple:2"]
+    commands: ["eco give <p> 4500"]
+  day29:
+    items: ["netherite_ingot:5", "diamond:32"]
+    commands: ["eco give <p> 5000"]
+  day30:
+    items: ["netherite_block:1", "diamond_block:12", "enchanted_golden_apple:4"]
+    commands: ["eco give <p> 10000", "say 🎉 <p> has completed the 30-day login streak!"]

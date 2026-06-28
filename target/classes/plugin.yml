@@ -1,0 +1,9 @@
+name: DailyRewards
+version: '1.0'
+main: dogged.dailyRewards.DailyRewards
+api-version: '1.21'
+
+commands:
+  daily:
+    description: Opens the daily rewards menu
+    usage: /<command>

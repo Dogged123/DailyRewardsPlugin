@@ -12,7 +12,7 @@ public class ReloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        if (sender.hasPermission("easy_prisons.reload")) {
+        if (sender.hasPermission("daily_rewards.reload")) {
             DailyRewards.getInstance().reloadConfig();
 
             sender.sendMessage(Component.text("Config file reloaded!", NamedTextColor.GREEN));

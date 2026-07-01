@@ -97,7 +97,6 @@ public class ItemMaker {
         return result;
     }
 
-
     public static ItemStack buildItem(Material type, String displayName, String lore, boolean unbreakable) {
         ItemStack result = new ItemStack(type);
         ItemMeta resultMeta = result.getItemMeta();
@@ -105,6 +104,18 @@ public class ItemMaker {
             resultMeta.displayName(Component.text(displayName));
             resultMeta.lore(Collections.singletonList(Component.text(lore)));
             resultMeta.setUnbreakable(unbreakable);
+        }
+        result.setItemMeta(resultMeta);
+
+        return result;
+    }
+
+    public static ItemStack buildItem(Material type, Component displayName, List<Component> lore) {
+        ItemStack result = new ItemStack(type);
+        ItemMeta resultMeta = result.getItemMeta();
+        if (resultMeta != null) {
+            resultMeta.displayName(displayName);
+            resultMeta.lore(lore);
         }
         result.setItemMeta(resultMeta);
 

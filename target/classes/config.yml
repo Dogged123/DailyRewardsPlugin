@@ -3,6 +3,14 @@ claimed_material: "emerald_block" # shows if the daily reward has already been c
 to_claim_material: "gold_block" # shows if the daily reward needs to be claimed
 cannot_claim_material: "redstone_block" # shows if the daily reward cannot be claimed
 
+# here you can change the text in the menu
+title: "&fDaily Rewards"
+
+# for the following two parameters, <day> provides the day the marker represents
+day_name: "&fDay &c<day>" # display name of each day marker
+# lore of each day marker, additional lines can be separated by ,
+day_lore: ["&7Log in for <day> days in a row to claim this reward!"]
+
 # here you can define what items are given to the player, or any commands that are run when they claim the reward
 # you can use <p> as a placeholder for the player's name
 # commands do not need '/' in front of them, and will be run from the console

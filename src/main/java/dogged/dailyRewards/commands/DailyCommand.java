@@ -1,8 +1,10 @@
 package dogged.dailyRewards.commands;
 
 import dogged.dailyRewards.DailyRewards;
+import dogged.dailyRewards.items.DailyItem;
 import dogged.dailyRewards.utils.ItemMaker;
 import dogged.dailyRewards.utils.PlayerData;
+import dogged.dailyRewards.utils.TextUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -14,6 +16,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class DailyCommand implements CommandExecutor {
 
@@ -36,7 +40,7 @@ public class DailyCommand implements CommandExecutor {
         Inventory dailyMenu = Bukkit.createInventory(
                 p,
                 (int) Math.max(9, Math.min(Math.ceil(rewardsSection.getKeys(false).size()/9.0)*9, 54)),
-                Component.text("Daily Rewards", NamedTextColor.YELLOW)
+                TextUtils.deserializeAmpersand(plugin.getConfig().getString("title", "&fDaily Rewards"))
         );
 
         Material claimed = Material.getMaterial(plugin.getConfig().getString("claimed_material", "emerald_block").toUpperCase());
@@ -57,7 +61,7 @@ public class DailyCommand implements CommandExecutor {
         }
 
         Material material;
-        int day;
+        int day = 1;
         for (String key : rewardsSection.getKeys(false)) {
             try {
                 day = Integer.parseInt(key.substring(key.indexOf("day") + 3));
@@ -70,7 +74,28 @@ public class DailyCommand implements CommandExecutor {
             else if (playerData.getDayStreak() >= day) material = toClaim;
             else material = cannotClaim;
 
-            dailyMenu.setItem(day - 1, ItemMaker.buildItem(material, Component.text("Day " + day, NamedTextColor.GOLD)));
+            List<Component> lore = List.of(TextUtils.deserializeAmpersand("&7Log in for " + day + " days in a row to claim this reward!"));
+
+            if (!plugin.getConfig().getStringList("day_lore").isEmpty()) {
+                int finalDay = day;
+                lore = plugin.getConfig().getStringList("day_lore").stream()
+                        .map(loreLine -> loreLine.replaceAll("<day>", String.valueOf(finalDay)))
+                        .map(TextUtils::deserializeAmpersand)
+                        .toList();
+            }
+
+            DailyItem dayItem = new DailyItem(plugin,
+                    ItemMaker.buildItem(material,
+                            TextUtils.deserializeAmpersand(plugin.getConfig().getString("day_name", "&fDay &c<day>")
+                                    .replaceAll("<day>", String.valueOf(day))),
+                            lore),
+                    day);
+
+            dailyMenu.setItem(day - 1, dayItem.create());
+        }
+
+        for (int i = day; i < dailyMenu.getSize(); i++) {
+            dailyMenu.setItem(i, ItemMaker.buildItem(Material.GRAY_STAINED_GLASS_PANE, " "));
         }
 
         p.openInventory(dailyMenu);

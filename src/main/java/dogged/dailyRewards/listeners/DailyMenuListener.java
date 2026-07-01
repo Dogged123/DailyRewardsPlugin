@@ -1,6 +1,7 @@
 package dogged.dailyRewards.listeners;
 
 import dogged.dailyRewards.DailyRewards;
+import dogged.dailyRewards.items.CustomItem;
 import dogged.dailyRewards.utils.PlayerData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -13,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class DailyMenuListener implements Listener {
 
@@ -23,23 +23,19 @@ public class DailyMenuListener implements Listener {
 
         e.setCancelled(true);
 
-        if (e.getCurrentItem() == null) return;
+        ItemStack item = e.getCurrentItem();
+        if (item == null) return;
 
-        ItemMeta meta = e.getCurrentItem().getItemMeta();
-        if (meta == null) return;
-
-        Component displayName = meta.displayName();
-        if (displayName == null) return;
-
-        String name = PlainTextComponentSerializer.plainText().serialize(displayName);
-        if (!name.contains("Day")) return;
+        String id = CustomItem.getCustomItemId(item, DailyRewards.getInstance());
+        if (id == null || !id.contains("day")) return;
 
         Player p = (Player) e.getWhoClicked();
         PlayerData playerData = PlayerData.getPlayerData(p);
 
         int day;
+
         try {
-            day = Integer.parseInt(name.substring(name.indexOf("Day ") + 4));
+            day = Integer.parseInt(id.replaceAll("\\D+", ""));
         } catch (NumberFormatException exception) {
             return;
         }

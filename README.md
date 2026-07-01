@@ -17,7 +17,7 @@ If a player misses a day they are reset to day 1.
 
 ## Images
 <img width="677" height="358" alt="image" src="https://github.com/user-attachments/assets/956acaaa-a465-466b-bd87-908682c24891" />
-<img width="1137" height="427" alt="image" src="https://github.com/user-attachments/assets/e0cb9859-9329-4bb5-9d10-e5b46857d88b" />
+<img width="1145" height="477" alt="image" src="https://github.com/user-attachments/assets/8d4fe2f9-a669-4ccc-90a4-6ea35813cbbd" />
 <img width="1138" height="52" alt="image" src="https://github.com/user-attachments/assets/a9831bca-234b-4746-a56e-b99dc7b8e300" />
 
 

@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DailyCommand implements CommandExecutor {
@@ -29,8 +30,6 @@ public class DailyCommand implements CommandExecutor {
         }
 
         DailyRewards plugin = DailyRewards.getInstance();
-        PlayerData playerData = PlayerData.getPlayerData(p);
-
         ConfigurationSection rewardsSection = plugin.getConfig().getConfigurationSection("rewards");
         if (rewardsSection == null || rewardsSection.getKeys(false).isEmpty()) {
             p.sendMessage(Component.text("No Daily Rewards have been set up!", NamedTextColor.RED));
@@ -42,6 +41,19 @@ public class DailyCommand implements CommandExecutor {
                 (int) Math.max(9, Math.min(Math.ceil(rewardsSection.getKeys(false).size()/9.0)*9, 54)),
                 TextUtils.deserializeAmpersand(plugin.getConfig().getString("title", "&fDaily Rewards"))
         );
+        populateDailyMenu(p, dailyMenu);
+
+        p.openInventory(dailyMenu);
+        return true;
+    }
+
+    public static void populateDailyMenu(Player p, Inventory dailyMenu) {
+        DailyRewards plugin = DailyRewards.getInstance();
+
+        ConfigurationSection rewardsSection = plugin.getConfig().getConfigurationSection("rewards");
+        if (rewardsSection == null || rewardsSection.getKeys(false).isEmpty()) return;
+
+        PlayerData playerData = PlayerData.getPlayerData(p);
 
         Material claimed = Material.getMaterial(plugin.getConfig().getString("claimed_material", "emerald_block").toUpperCase());
         Material toClaim = Material.getMaterial(plugin.getConfig().getString("to_claim_material", "gold_block").toUpperCase());
@@ -84,6 +96,14 @@ public class DailyCommand implements CommandExecutor {
                         .toList();
             }
 
+            String claim = "§a[CLICK TO CLAIM]";
+            if (day > playerData.getDayStreak()) claim = "§c[CANNOT CLAIM]";
+            if (playerData.hasClaimedDaily(day)) claim = "§a[CLAIMED]";
+
+            lore = new ArrayList<>(lore); // make the list mutable
+            lore.add(Component.text(""));
+            lore.add(Component.text(claim));
+
             DailyItem dayItem = new DailyItem(plugin,
                     ItemMaker.buildItem(material,
                             TextUtils.deserializeAmpersand(plugin.getConfig().getString("day_name", "&fDay &c<day>")
@@ -97,10 +117,6 @@ public class DailyCommand implements CommandExecutor {
         for (int i = day; i < dailyMenu.getSize(); i++) {
             dailyMenu.setItem(i, ItemMaker.buildItem(Material.GRAY_STAINED_GLASS_PANE, " "));
         }
-
-        p.openInventory(dailyMenu);
-
-        return true;
     }
 }
 

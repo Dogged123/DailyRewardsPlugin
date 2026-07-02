@@ -1,3 +1,6 @@
+# this message is shown to the player when they log on with unclaimed rewards
+alert_message: "&7[&eDaily Rewards&7] &aYou have rewards waiting, click to claim!"
+
 # here you can change the different materials shown in the menu
 claimed_material: "emerald_block" # shows if the daily reward has already been claimed
 to_claim_material: "gold_block" # shows if the daily reward needs to be claimed

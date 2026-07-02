@@ -1,6 +1,7 @@
 package dogged.dailyRewards.listeners;
 
 import dogged.dailyRewards.DailyRewards;
+import dogged.dailyRewards.commands.DailyCommand;
 import dogged.dailyRewards.items.CustomItem;
 import dogged.dailyRewards.utils.PlayerData;
 import net.kyori.adventure.text.Component;
@@ -76,6 +77,8 @@ public class DailyMenuListener implements Listener {
             cmd = cmd.replaceAll("<p>", p.getName());
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
         }
+
+        DailyCommand.populateDailyMenu(p, e.getClickedInventory());
     }
 }
 

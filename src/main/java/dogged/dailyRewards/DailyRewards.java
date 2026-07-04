@@ -4,6 +4,7 @@ import dogged.dailyRewards.commands.DailyCommand;
 import dogged.dailyRewards.commands.ReloadCommand;
 import dogged.dailyRewards.listeners.DailyMenuListener;
 import dogged.dailyRewards.listeners.JoinListener;
+import dogged.dailyRewards.utils.CommandUtils;
 import dogged.dailyRewards.utils.CustomConfig;
 import dogged.dailyRewards.utils.PlayerData;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,8 +31,8 @@ public final class DailyRewards extends JavaPlugin {
         day = dayConfig.getConfig().getInt("day", today.getDayOfMonth());
         detectInitialDayChange();
 
-        getCommand("daily").setExecutor(new DailyCommand());
-        getCommand("reload").setExecutor(new ReloadCommand());
+        CommandUtils.registerCommand(this, "daily", new DailyCommand());
+        CommandUtils.registerCommand(this, "reload", new ReloadCommand());
 
         getServer().getPluginManager().registerEvents(new DailyMenuListener(), this);
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
